@@ -1,0 +1,16 @@
+name: Recordatorios
+
+# Revisa entregas cercanas y manda un correo de recordatorio.
+# Horas en UTC: 12, 16, 20 y 00 = 8 am, 12 pm, 4 pm y 8 pm en Caracas.
+on:
+  schedule:
+    - cron: "0 12,16,20,0 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  recordar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al dashboard
+        run: |
+          curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.DASHBOARD_URL }}/api/remind"
