@@ -407,7 +407,7 @@ export default function Dashboard() {
                 ) : <p className="muted">{data.briefing.titulo}</p>}
               </>
             ) : (
-              <p className="muted">El primer briefing llega con la próxima revisión de Claude (9:15, 13:46 o 22:46).</p>
+              <p className="muted">El primer briefing llega con la próxima revisión de Claude (cada 2 horas, de 9:15 am a 10:46 pm).</p>
             )}
           </div>
 

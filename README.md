@@ -19,4 +19,4 @@ Ver `.env.example`: `NOTION_TOKEN`, `DASHBOARD_PASSWORD`, `CRON_SECRET`, `RESEND
 
 ## Reglas
 - El dashboard solo toca las bases privadas **Mis tareas** y **Bandeja de Claude**, nunca las del equipo.
-- Aprobar un cambio no lo ejecuta al instante: Claude lo aplica en su siguiente revisión (9:15, 13:46 o 22:46).
+- Aprobar un cambio no lo ejecuta al instante: Claude lo aplica en su siguiente revisión (cada 2 horas, de 9:15 am a 10:46 pm).
