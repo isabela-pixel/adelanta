@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { DB_TAREAS, DB_BANDEJA, queryAll, mapTarea, mapBandeja, getPasos, getTexto } from "../../../lib/notion";
+import { DB_TAREAS, DB_BANDEJA, queryAll, mapTarea, mapBandeja, getPasos, getTexto, diagnosticoToken } from "../../../lib/notion";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +30,7 @@ export async function GET() {
       briefing,
     });
   } catch (e) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    const extra = /401|token/i.test(e.message) ? ` — ${diagnosticoToken()}` : "";
+    return NextResponse.json({ error: e.message + extra }, { status: 500 });
   }
 }
