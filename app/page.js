@@ -118,6 +118,9 @@ function Task({ t, onChange, onStep, toast }) {
             {ESTADOS.map((e) => <option key={e}>{e}</option>)}
           </select>
         </label>
+        {t.estado !== "Hecha" && (
+          <button className="btn ok sm" onClick={() => onChange(t, { estado: "Hecha" })}>✓ Ya lo hice</button>
+        )}
         <span style={{ flex: 1 }} />
         <button className="link" style={{ background: "none", border: 0, cursor: "pointer", padding: 0 }} onClick={() => setAbierta(!abierta)}>
           {abierta ? "Ocultar pasos" : "Ver pasos"}
@@ -239,7 +242,15 @@ export default function Dashboard() {
     const res = await fetch(`/api/tasks/${t.id}`, {
       method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(cambios),
     });
-    if (!res.ok) { toast("No se pudo guardar. Reintentando…"); cargar(); }
+    if (!res.ok) { toast("No se pudo guardar. Reintentando…"); cargar(); return; }
+    if ("estado" in cambios) {
+      const r = await res.json().catch(() => ({}));
+      if (cambios.estado === "Hecha") {
+        toast(r.equipo === "ok" ? "🎉 ¡Hecha! También quedó como Done en Tasks"
+          : r.equipo === "no-aplica" ? "🎉 ¡Hecha!"
+          : "🎉 ¡Hecha! Claude la marca como Done en Notion en la próxima revisión");
+      } else if (r.equipo === "ok") toast(`Actualizada también en Tasks`);
+    }
   }
 
   async function marcarPaso(t, p, hecho) {

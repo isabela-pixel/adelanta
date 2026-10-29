@@ -18,5 +18,5 @@ Ver `.env.example`: `NOTION_TOKEN`, `DASHBOARD_PASSWORD`, `CRON_SECRET`, `RESEND
 `CRON_SECRET` (el mismo de Vercel) y `DASHBOARD_URL` (la URL de Vercel, sin barra final).
 
 ## Reglas
-- El dashboard solo toca las bases privadas **Mis tareas** y **Bandeja de Claude**, nunca las del equipo.
+- El dashboard escribe en las bases privadas **Mis tareas** y **Bandeja de Claude**. Única excepción: al cambiar el estado de una tarea que viene de **Tasks** del equipo (Hecha / En curso / Por hacer), refleja ese Status allá (requiere que la integración tenga acceso a Tasks).
 - Aprobar un cambio no lo ejecuta al instante: Claude lo aplica en su siguiente revisión (cada 2 horas, de 9:15 am a 10:46 pm).
