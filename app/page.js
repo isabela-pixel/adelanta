@@ -247,6 +247,8 @@ export default function Dashboard() {
       const r = await res.json().catch(() => ({}));
       if (cambios.estado === "Hecha") {
         toast(r.equipo === "ok" ? "🎉 ¡Hecha! También quedó como Done en Tasks"
+          : r.equipo === "compartida" ? "🎉 ¡Tu parte está lista! La tarea sigue abierta para el resto y dejé un comentario"
+          : r.equipo === "compartida-sin-comentario" ? "🎉 ¡Tu parte está lista! La tarea sigue abierta para el resto"
           : r.equipo === "no-aplica" ? "🎉 ¡Hecha!"
           : "🎉 ¡Hecha! Claude la marca como Done en Notion en la próxima revisión");
       } else if (r.equipo === "ok") toast(`Actualizada también en Tasks`);

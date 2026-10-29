@@ -21,6 +21,25 @@ async function sincronizarEquipo(page, estado) {
     }
     const dbId = (origen.parent?.database_id || "").replace(/-/g, "");
     if (dbId !== DB_TASKS_EQUIPO) continue;
+
+    // Tarea compartida (más de un responsable): no se cierra para todos.
+    // Solo se deja constancia de que Isa terminó su parte.
+    const responsables = origen.properties?.Assignee?.people?.length || 0;
+    if (responsables > 1 && destino === "Done") {
+      try {
+        await notion("/comments", {
+          method: "POST",
+          body: {
+            parent: { page_id: id },
+            rich_text: [{ text: { content: "✅ Isa terminó su parte de esta tarea." } }],
+          },
+        });
+        return { equipo: "compartida" };
+      } catch {
+        return { equipo: "compartida-sin-comentario" };
+      }
+    }
+
     try {
       await notion(`/pages/${id}`, { method: "PATCH", body: { properties: { Status: { status: { name: destino } } } } });
       return { equipo: "ok" };
